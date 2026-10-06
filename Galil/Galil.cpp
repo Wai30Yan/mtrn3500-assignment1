@@ -15,8 +15,12 @@ Galil::Galil(EmbeddedFunctions* Funcs, GCStringIn address) : Functions(Funcs), g
     }
 }
 
+// Copy constructor to copy the state of all elements within the object other.
+// It should construct a new EmbeddedFunctions object and open a separate connection
+// (i.e., each class will have a unique value of the GCon g). All other data members
+// should be transferred.
 Galil::Galil(const Galil& other) : g(0), ownsFunctions(true), savedAddress(other.savedAddress)  {
-    Functions = new EmbeddedFunctions();
+    Functions = new EmbeddedFunctions(*other.Functions);
     GReturn result = Functions->GOpen(savedAddress.c_str(), &g);
     if (result != G_NO_ERROR) {
         std::cout << "Galil copy: failed to open connection, error code: " << result << std::endl;
@@ -224,7 +228,7 @@ Galil& Galil::operator=(const Galil& other) {
     }
 
     savedAddress = other.savedAddress;
-    Functions = new EmbeddedFunctions();
+    Functions = new EmbeddedFunctions(*other.Functions);
     ownsFunctions = true;
     g = 0;
     GReturn result = Functions->GOpen(savedAddress.c_str(), &g);
