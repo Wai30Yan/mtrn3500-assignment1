@@ -3,7 +3,9 @@
 // TODO: complete this function.
 EmbeddedFunctions::EmbeddedFunctions() {}
 // TODO: complete this function.
-EmbeddedFunctions::~EmbeddedFunctions() {}
+EmbeddedFunctions::~EmbeddedFunctions() {
+	GClose();
+}
 
 /**
 * Open a connection to a Galil Controller.

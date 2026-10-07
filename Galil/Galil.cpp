@@ -187,20 +187,6 @@ double Galil::getKd() {
     return ControlParameters[2];
 }
 
-// Run the control loop. ReadEncoder() is the input to the loop. The motor is the output.
-// The loop will run using the PID values specified in the data of this object, and has an 
-// automatic timeout of 10s. You do NOT need to implement this function, it is defined in
-// GalilControl.lib
-
-void Galil::PositionControl(bool debug, int Motorchannel) {
-
-}
-
-// same as above. Setpoint interpreted as counts per second
-void Galil::SpeedControl(bool debug, int Motorchannel) {
-}	
-
-
 // OPERATOR OVERLOADS
 // Operator overload for '<<' operator. So the user can say cout << Galil;
 // This function should print out the output of GInfo and GVersion, with
@@ -243,4 +229,27 @@ Galil& Galil::operator=(const Galil& other) {
 
     return *this;
 }
-// (refer above for details).
+
+/*
+hardware
+1. digital input is for inputs from external devices such as sensors or lidar. 
+i don't understand question 2 and 3
+
+galil command
+4. cuz @AN is an operand not a command
+5. it means set high bank of output pin, comma is needed cuz the first parameter is for low bank. idk the binary
+150, but the respective pins in high bank will be activated if the bit is 1.
+6. SB 3 only sets the fourth pin from left while TI 0; reads all the pin in low bank
+
+c++ design
+7. to keep track of whether or not the EmbeddedFunctions object is initialized in its constructor or it's using
+the EmbeddedFunctions owned by a different Galil object
+8. to use the == operator provided by the C++ compiler.
+9. i don't know the answer
+
+TCP
+10. do you mean the TCP handshake?? SYN/ACK?? the galil machine is listening on 192.168.0.120:23. The client 
+needs to establish the connection to send command in bytes. the connection needed to be close when object is deleted.
+11. cuz this is socket programming. data is sent in bytes instead of ASCII.
+
+*/
